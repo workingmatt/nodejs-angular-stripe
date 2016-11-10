@@ -1,9 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
-var config = require('./config.json');
+var config = require('./config.json'); //This file contains the secret keys (don't put them on github!)
 var stripe = require('stripe')(config.stripe[0].secretKeyTest);
-console.log("sk: "+config.stripe[0].secretKeyTest);
 
 var app = express();
 app.use(express.static(__dirname+'/public'));
@@ -22,7 +21,7 @@ app.post('/pay', function(req,res){
 		description: "Test Charge"
 	}, function(err, charge){
 		if (err){console.log(err);}
-		if (charge){console.log(charge.id);}
+		if (charge){console.log(charge.id);} //Charge object has many useful fields, remove .id to see them all
 	});
 
 	res.end();
