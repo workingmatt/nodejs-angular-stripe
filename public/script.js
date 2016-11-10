@@ -1,27 +1,25 @@
-var app = angular.module('Testing', []);
+var app = angular.module('myApp', []);
 
 var publicStripeApiKeyTesting = 'pk_test_58Aqhu83LClAFZZohgWbbBx6';
 
-var stripeHandler = StripeCheckout.configure({
-	key: 'pk_test_58Aqhu83LClAFZZohgWbbBx6',
-	image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-	locale: 'auto',
-	token: function(token){
-		//token.id		console.log("Config stripeHandler: "+token.id);
-		stripePay.create({
-			amount: 1234,
-			currency: 'gbp',
-			source: token,
-			description: "Matt's Test Charge"},
-			function(err, charge){
-				if(err&&err.type == 'StripeCardError') {
-					console.log('card declined');
-				}
-			}
-		);
-	}
-});
+app.controller('formCtrl', ['$scope', '$http', function($scope, $http){
+	$scope.cardNumber = 'card no';
+	$scope.cardCvc = "cvcX";
+	$scope.cardExpiryMonth = "month";
+	$scope.cardExpiryYear = "year";
 
+	$scope.pay = function(){
+		var res = $http.post('/pay', $scope.formData);
+		$http.post('/pay', $scope.formData).
+			success(function(data){
+				console.log('post successful');
+			}).error(function(data){
+				console.log('error in posting');
+			});
+		console.log("res.success: ");
+	};
+
+}]);
 
 app.controller('TestingCtrl', function($scope){
 	$scope.message = 'Angular is pretty cool.';

@@ -4,16 +4,36 @@
     <link rel="stylesheet" href="style.css" />
     <script src="https://checkout.stripe.com/checkout.js"></script>
 </head>
-<body ng-app="Testing">
+<body ng-app="myApp">
 
 <div class="page-container" ng-controller="TestingCtrl">
-  <div>
-    The div thing
-    <br/>
-    <button class="bt bt-achieve" ng-click="pay()">Pay!</button>
-    <span>{{payOutput}}</span>
+    <div id="stripe-form" ng-controller="formCtrl">
+        <form >
+            <div class="form-row">
+                <div class="cc-text">Card Number</div>
+                <input type="text" size="30" autocomplete="off" ng-model="formData.cardNumber"/>
+                <p>{{formData.cardNumber}}</p>
+                </div>
+            <div class="form-row">
+                <div class="cc-text">CVC</div>
+                <input type="text" size="4" autocomplete="off" ng-model="formData.cardCvc"/>
 
-    <br/><br/><br/><br/><br/>
+                <p>{{formData.cardCvc}}</p>
+            </div>
+            <div class="form-row">
+                <div class="cc-text">Expiration (MM/YYYY)</div>
+                <input type="text" size="2" autocomplete="off" ng-model="formData.cardExpiryMonth"/>
+               <span> / </span>
+                <input type="text" size="4" autocomplete="off" ng-model="formData.cardExpiryYear"/>
+                <p>{{formData.cardExpiryMonth}}:{{formData.cardExpiryYear}}</p>
+            </div>
+            <input type="hidden" name="amount" value="1234" id="cc-amount"/>
+            <button type="submit" class="bt bt-achieve" ng-click="pay()">Submit Payment</button>
+        </form>
+        The div thing
+        <br/>
+        <button class="bt bt-achieve" ng-click="pay()">Pay!</button>
+        <span>{{payOutput}}</span>
     </div>
 
 	<input type="text" ng-model="message">
