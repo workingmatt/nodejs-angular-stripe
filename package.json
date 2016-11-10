@@ -1,0 +1,15 @@
+{
+  "name": "AngStripeTest",
+  "version": "1.0.0",
+  "description": "Testing Angular and Stripe",
+  "author": "Matt Mapleston <matt@chanzachanzo.com>",
+  "scripts": {
+    "start": "node server",
+    "watch": "nodemon server"
+  },
+
+  "dependencies": {
+    "express": "^4.14",
+    "nodemon": "^1.9"
+  }
+}
