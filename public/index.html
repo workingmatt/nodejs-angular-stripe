@@ -2,7 +2,7 @@
 <head>
 	<link href='http://fonts.googleapis.com/css?family=Roboto:100,300' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="style.css" />
-    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 </head>
 <body ng-app="myApp">
 
@@ -11,7 +11,7 @@
         <form >
             <div class="form-row">
                 <div class="cc-text">Card Number</div>
-                <input type="text" size="30" autocomplete="off" ng-model="formData.cardNumber"/>
+                <input type="text" size="30" autocomplete="off" ng-model="formData.cardNumber" ng-init="4242424242424242"/>
                 <p>{{formData.cardNumber}}</p>
                 </div>
             <div class="form-row">
@@ -27,17 +27,11 @@
                 <input type="text" size="4" autocomplete="off" ng-model="formData.cardExpiryYear"/>
                 <p>{{formData.cardExpiryMonth}}:{{formData.cardExpiryYear}}</p>
             </div>
-            <input type="hidden" name="amount" value="1234" id="cc-amount"/>
+            <input type="hidden" ng-model="formData.amount"/>
+            {{amount}}
             <button type="submit" class="bt bt-achieve" ng-click="pay()">Submit Payment</button>
         </form>
-        The div thing
-        <br/>
-        <button class="bt bt-achieve" ng-click="pay()">Pay!</button>
-        <span>{{payOutput}}</span>
     </div>
-
-	<input type="text" ng-model="message">
-    <span>{{message}}</span>
 
     <h2>To Do</h2>
     <ul class="todo-list" ng-repeat="todo in todos track by $index">

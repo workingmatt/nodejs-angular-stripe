@@ -2,24 +2,37 @@ var app = angular.module('myApp', []);
 
 var publicStripeApiKeyTesting = 'pk_test_58Aqhu83LClAFZZohgWbbBx6';
 
-app.controller('formCtrl', ['$scope', '$http', function($scope, $http){
-	$scope.cardNumber = 'card no';
-	$scope.cardCvc = "cvcX";
-	$scope.cardExpiryMonth = "month";
-	$scope.cardExpiryYear = "year";
+Stripe.setPublishableKey(publicStripeApiKeyTesting);
+
+app.controller('formCtrl', function($scope, $http){
 
 	$scope.pay = function(){
-		var res = $http.post('/pay', $scope.formData);
-		$http.post('/pay', $scope.formData).
-			success(function(data){
-				console.log('post successful');
-			}).error(function(data){
-				console.log('error in posting');
+
+		$scope.formData.amount = 123456;
+		Stripe.createToken({
+			number: $scope.formData.cardNumber,
+			cvc: $scope.formData.cardCvc,
+			exp_month: $scope.formData.cardExpiryMonth,
+			exp_year: $scope.formData.cardExpiryYear
+		}, $scope.formData.amount, function(status, response){
+				if(response.error){
+					console.log('Create token error');
+					console.log(response.error.message);
+					return;
+				}
+				$scope.formData.token = response.id;
+
+				$http.post('/pay', $scope.formData).
+				success(function(data){
+					console.log('post successful');
+				}).error(function(data){
+					console.log('error in posting');
+				});
+				console.log("res.success: ");
 			});
-		console.log("res.success: ");
 	};
 
-}]);
+});
 
 app.controller('TestingCtrl', function($scope){
 	$scope.message = 'Angular is pretty cool.';
@@ -30,17 +43,6 @@ app.controller('TestingCtrl', function($scope){
 		'Look at thing and feel',
 		'Learn stuff'
 		];
-
-	$scope.pay = function() {
-		$scope.payOutput = 'Woohoo';
-		stripeHandler.open({
-			name: 'Stripe.com',
-			description: '2 widgets',
-			zipCode: true,
-			amount: 1234
-		});
-		$scope.payOutput = 'Jan';
-	};
 
 	$scope.done = function(todo) {
 		var indexOf = $scope.todos.indexOf(todo);
